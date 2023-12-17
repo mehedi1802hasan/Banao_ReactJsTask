@@ -7,18 +7,18 @@ const Home = () => {
     const [users, setUsers] = useState([]);
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [loading, setLoading] = useState(true);
- const brokenImg='https://i.ibb.co/C8QnRh2/img-not-found.png'|| 'No data SHow';
- 
- const imgOnLoad=(e)=>{
-    console.log(`sucess ${e.currentTarget.src} loaded.`);
-    if(e.currentTarget.className !=='error'){
-        e.currentTarget.className ="success"
+    const brokenImg = 'https://i.ibb.co/C8QnRh2/img-not-found.png' || 'No data SHow';
+
+    const imgOnLoad = (e) => {
+        console.log(`sucess ${e.currentTarget.src} loaded.`);
+        if (e.currentTarget.className !== 'error') {
+            e.currentTarget.className = "success"
+        }
+    };
+    const imageOnError = (e) => {
+        e.currentTarget.src = brokenImg;
+        e.currentTarget.className = "error"
     }
- };
- const imageOnError =(e)=>{
-    e.currentTarget.src=brokenImg;
-    e.currentTarget.className ="error"
- }
 
     // Refs for the user details container and the selected user element
     const userDetailsRef = useRef(null);
@@ -58,29 +58,31 @@ const Home = () => {
             {/* User List Div----- */}
             <Row className='p-4 p-md-0 p-lg-0 d-flex' style={{ marginTop: "10px" }}>
                 <Col xs={6} >
-                    <div style={{ backgroundColor: "#C5DFFF" }}>
-                        <p className='text-center fs-3 p-2'>User List</p>
+                    <div style={{ backgroundColor: "orange",borderRadius:"6px",padding:"2px"}}>
+                        <p className='text-center  fs-3 p-2'>User List</p>
                     </div>
 
                     {loading ? (
                         // Display Spinner while loading data
-                       
-<ScaleLoader className='d-flex justify-content-center align-items-center'  size={1009}  style={{marginTop:'100px',marginBottom:"30px"}} color="blue " />
+
+                        <ScaleLoader className='d-flex justify-content-center align-items-center' size={1009} style={{ marginTop: '100px', marginBottom: "30px" }} color="blue " />
                     ) : (
                         users.map(user =>
                             <div
                                 key={user.createdAt}
                                 onClick={() => handleDetails(user.id)}
-                            
+
                                 ref={selectedUserId === user.id ? selectedUserRef : null}
                                 style={{
-                                    backgroundColor: selectedUserId === user.id ? "#9BD3FF" : "#ECECEC",
+                                    backgroundColor: selectedUserId === user.id ? "#CDCD74" : "#ECECEC",
                                     cursor: 'pointer',
+                                
                                 }}
-                                className='d-block d-md-flex d-lg-flex align-items-center gap-3 mt-3 p-1 hover-black'
-                            >
-                                <p  className='mt-3 p-2 p-md-0 p-lg-0 '> <img style={{width:"50px" , height:"50px" ,borderRadius:"50px",border:"1px dotted green"}} onLoad={imgOnLoad} onError={imageOnError} src={ user.avatar} alt="No image here" /> </p>
-                             {/* <p>  {user?.avatar ?  <img style={{width:"80px" , height:"80px" ,borderRadius:"50px"}} src={ user.avatar} alt="" /> : <img src='https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/339.jpg' /> }</p> */}
+                                className='d-block d-md-flex d-lg-flex align-items-center gap-3 mt-3 p-1 hover-black '
+                            > 
+                            
+                                <p className='mt-3 p-2 p-md-0 p-lg-0 '> <img style={{ width: "50px", height: "50px", borderRadius: "50px", border: "1px dotted green" }} onLoad={imgOnLoad} onError={imageOnError} src={user.avatar} alt="No image here" /> </p>
+                               
                                 <p className='mt-3 p-2 p-md-0 p-lg-0'>{user.profile.firstName} {user.profile.lastName}</p>
                             </div>
                         )
@@ -89,45 +91,45 @@ const Home = () => {
 
                 {/* User Details Div----- */}
                 <Col xs={6}>
-                
-                        <div ref={userDetailsRef}>
-                            <div style={{ backgroundColor: "#C5DFFF" }}>
-                                <p className='text-center fs-3 p-2'>User Details</p>
-                            </div>
-                            {selectedUserId && (   <div style={{border:"1px dotted pink"}} className='px-2 px-md-5 px-lg-5 '>
+
+                    <div ref={userDetailsRef}>
+                        <div style={{ backgroundColor: "orange",borderRadius:"6px", padding:"2px"}}>
+                            <p className='text-center fs-3 p-2'>User Details</p>
+                        </div>
+                        {selectedUserId && (<div style={{ border: "1px dotted pink" }} className='px-2 px-md-5 px-lg-5 '>
                             {users.filter(userDtls => userDtls.id === selectedUserId)
                                 .map(filteredUser => (
                                     <div key={filteredUser.createdAt}>
                                         <div className='my-4'>
-                                            <p className='d-flex justify-content-center'><img style={{ height: "130px", width: "130px", borderRadius: "150px",border:"1px dotted green" }} onLoad={imgOnLoad} onError={imageOnError} src={ filteredUser.avatar}  alt="Image not Found" /></p>
-                                            <h6 className='text-center'>@ {filteredUser.profile.username}</h6>
+                                            <p className='d-flex justify-content-center'><img style={{ height: "130px", width: "130px", borderRadius: "150px", border: "1px dotted green" }} onLoad={imgOnLoad} onError={imageOnError} src={filteredUser.avatar} alt="Image not Found" /></p>
+                                            <h6 className='text-center'>@{filteredUser.profile.username}</h6>
 
 
                                         </div>
-                                        <div className='mb-3' style={{ backgroundColor: "#DBDBDB", border: "1px solid #6C6C6C", borderRadius: "5px" }}>
+                                        <div className='mb-3' style={{ backgroundColor: "#DBDBDB", border: "1px solid teal", borderRadius: "5px" }}>
                                             <p className='p-2 '> {filteredUser.Bio}</p>
                                         </div>
                                         <div>
                                             <p>Full Name</p>
-                                            <p className='p-2' style={{ borderRadius: '8px', border: '1px solid #6C6C6C', background: '#DBDBDB',marginTop:"-10px", wordWrap: 'break-word' }}>{filteredUser.profile.firstName} {filteredUser.profile.lastName}</p>
+                                            <p className='p-2' style={{ borderRadius: '8px', border: '1px solid teal', background: '#DBDBDB', marginTop: "-10px", wordWrap: 'break-word' }}>{filteredUser.profile.firstName} {filteredUser.profile.lastName}</p>
                                         </div>
                                         <div>
                                             <p>Job Title</p>
-                                            <p  className='p-2 ' style={{ borderRadius: '8px', border: '1px solid #6C6C6C', background: '#DBDBDB',marginTop:"-10px", wordWrap: 'break-word' }}>{filteredUser.jobTitle}</p>
+                                            <p className='p-2 ' style={{ borderRadius: '8px', border: '1px solid teal', background: '#DBDBDB', marginTop: "-10px", wordWrap: 'break-word' }}>{filteredUser.jobTitle}</p>
                                         </div>
                                         <div>
                                             <p>Email</p>
-                                            <p className='p-2  overflow-auto ' style={{ borderRadius: '8px', border: '1px solid #6C6C6C', background: '#DBDBDB', marginTop: '-10px', whiteSpace: 'nowrap', overflowWrap: 'break-word' }}>
-  {filteredUser.profile.email}
-</p>
+                                            <p className='p-2  overflow-auto ' style={{ borderRadius: '8px', border: '1px solid teal', background: '#DBDBDB', marginTop: '-10px', whiteSpace: 'nowrap', overflowWrap: 'break-word' }}>
+                                                {filteredUser.profile.email}
+                                            </p>
 
                                         </div>
                                     </div>
                                 ))}
-                          </div>
-                            )}
                         </div>
-              
+                        )}
+                    </div>
+
                 </Col>
             </Row>
         </Container>
